@@ -6,7 +6,7 @@ ENDM
 CryData::
 	table_width 3, CryData
 	; base cry, pitch, length
-	mon_cry SFX_CRY_11, $00, $80 ; Rhydon
+	mon_cry SFX_CRY_11, $00, $70 ; Rhydon
 	mon_cry SFX_CRY_03, $00, $80 ; Kangaskhan
 	mon_cry SFX_CRY_00, $00, $80 ; Nidoran♂
 	mon_cry SFX_CRY_19, $CC, $01 ; Clefairy
