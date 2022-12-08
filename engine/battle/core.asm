@@ -5335,7 +5335,7 @@ AIGetTypeEffectiveness:
 .loop
 	ld a, [hli]
 	cp $ff                     ; eventually breaks at the end of the table?
-	ret z
+	jr z, .finalCheck
 	cp d                       ; match the type of the move
 	jr nz, .nextTypePair1      ; if not the same type, skip to next table entry
 	ld a, [hli]                ; otherwise start checking op mon type
@@ -5350,7 +5350,7 @@ AIGetTypeEffectiveness:
 	inc hl
 	jr .loop
 .addTypeData ; we're adding a new segment that lets it calculate for both types
-	ld a, [hl]
+	ld a, [hli]
 	cp $00
 	jr z, .isImmune ; immediately return 01 if the either type is immune to the move
 	cp $05
@@ -5359,19 +5359,27 @@ AIGetTypeEffectiveness:
 	or a ; clear carry flag rotate
 	rla ; and double it
 	ld [wTypeEffectiveness], a ; then store the combined result
-	inc hl ; need to increment this ourself now that we're relooping
 	jr .loop
 .isResistant
 	ld a, [wTypeEffectiveness] ; not very effective so we load the current return #
 	or a ; clear carry flag rotate
 	rra ; and cut it in half
 	ld [wTypeEffectiveness], a ; then store the combined result
-	inc hl ; need to increment this ourself now that we're relooping
 	jr .loop
 .isImmune
     ld a, $01 ; we hit an immunity so the result will only ever be 0, get out
 	ld [wTypeEffectiveness], a ; store damage multiplier as ineffective
 	ret
+.finalCheck                    ; at this point we've broken for any immunities for cases like t-wave, but may still be a status move
+	ld a, [wEnemyMovePower]    ; if move is then non-damaging, ignore all of this and treat it as neutral effectiveness
+	cp $02                    ; check if move has 1 or more power by subtracting 2
+	jr c, .statusMove          ; if subtracting 2 set carry, is either power 1 or 0 and we should break
+	ret                        ; otherwise we can return as before and it's a normal move no worries
+.statusMove
+	ld a, $10
+	ld [wTypeEffectiveness], a ; reset effectiveness for non-negated status move
+	ret
+    
 
 INCLUDE "data/types/type_matchups.asm"
 
