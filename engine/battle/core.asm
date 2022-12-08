@@ -5311,6 +5311,17 @@ AdjustDamageForMoveType:
 ; the result is stored in [wTypeEffectiveness]
 ; ($05 is not very effective, $10 is neutral, $14 is super effective)
 ; as far is can tell, this is only used once in some AI code to help decide which move to use
+
+; narf note
+; i have modified this code to check both types and use this to modify the return
+; value at wTypeEffectiveness in wram
+; it starts at $10, checks every valid entry and if it's nve it cuts it in half
+; while if it's se it doubles it instead
+; since there's only 2 entries available this should never get weird unless
+; you somehow add duplicates to the type table for some weird reason (don't do that)
+; also if you hit any no effect entries it immediately breaks and returns 01
+; which treats it as though it was a resisted move
+; you could fix that later by editing the trainer ai data ig
 AIGetTypeEffectiveness:
 	ld a, [wEnemyMoveType]
 	ld d, a                    ; d = type of enemy move
@@ -5323,24 +5334,43 @@ AIGetTypeEffectiveness:
 	ld hl, TypeEffects
 .loop
 	ld a, [hli]
-	cp $ff
+	cp $ff                     ; eventually breaks at the end of the table?
 	ret z
-	cp d                      ; match the type of the move
-	jr nz, .nextTypePair1
-	ld a, [hli]
-	cp b                      ; match with type 1 of pokemon
-	jr z, .done
-	cp c                      ; or match with type 2 of pokemon
-	jr z, .done
-	jr .nextTypePair2
+	cp d                       ; match the type of the move
+	jr nz, .nextTypePair1      ; if not the same type, skip to next table entry
+	ld a, [hli]                ; otherwise start checking op mon type
+	cp b                       ; match with type 1 of pokemon
+	jr z, .addTypeData
+	cp c                       ; or match with type 2 of pokemon
+	jr z, .addTypeData
+	jr .nextTypePair2          ; if wasnt for either of op's types break
 .nextTypePair1
 	inc hl
 .nextTypePair2
 	inc hl
 	jr .loop
-.done
+.addTypeData ; we're adding a new segment that lets it calculate for both types
 	ld a, [hl]
-	ld [wTypeEffectiveness], a ; store damage multiplier
+	cp $00
+	jr z, .isImmune ; immediately return 01 if the either type is immune to the move
+	cp $05
+	jr z, .isResistant
+	ld a, [wTypeEffectiveness] ; else it's super effective so we load the current return #
+	or a ; clear carry flag rotate
+	rla ; and double it
+	ld [wTypeEffectiveness], a ; then store the combined result
+	inc hl ; need to increment this ourself now that we're relooping
+	jr .loop
+.isResistant
+	ld a, [wTypeEffectiveness] ; not very effective so we load the current return #
+	or a ; clear carry flag rotate
+	rra ; and cut it in half
+	ld [wTypeEffectiveness], a ; then store the combined result
+	inc hl ; need to increment this ourself now that we're relooping
+	jr .loop
+.isImmune
+    ld a, $01 ; we hit an immunity so the result will only ever be 0, get out
+	ld [wTypeEffectiveness], a ; store damage multiplier as ineffective
 	ret
 
 INCLUDE "data/types/type_matchups.asm"
