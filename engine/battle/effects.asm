@@ -544,12 +544,14 @@ StatModifierDownEffect:
 	ld hl, wPlayerMonStatMods
 	ld de, wEnemyMoveEffect
 	ld bc, wPlayerBattleStatus1
-	ld a, [wLinkState]
-	cp LINK_STATE_BATTLING
-	jr z, .statModifierDownEffect
-	call BattleRandom
-	cp 25 percent + 1 ; chance to miss by in regular battle
-	jp c, MoveMissed
+	; narfnote: i think just commenting this out should remove the ai fail % chance?
+
+	; ld a, [wLinkState]
+	; cp LINK_STATE_BATTLING
+	; jr z, .statModifierDownEffect
+	; call BattleRandom
+	; cp 25 percent + 1 ; chance to miss by in regular battle
+	; jp c, MoveMissed
 .statModifierDownEffect
 	call CheckTargetSubstitute ; can't hit through substitute
 	jp nz, MoveMissed

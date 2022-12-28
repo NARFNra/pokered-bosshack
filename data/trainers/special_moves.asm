@@ -49,6 +49,7 @@ SpecialTrainerMoves:
 	db KOGA, 1
 	db 1, 1, EXPLOSION
 	db 1, 2, TOXIC
+	db 2, 1, BODY_SLAM
 	db 2, 2, TOXIC
 	db 2, 3, MEGA_DRAIN
 	db 3, 1, THUNDERBOLT
