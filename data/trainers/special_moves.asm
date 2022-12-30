@@ -105,7 +105,7 @@ SpecialTrainerMoves:
 	db LORELEI, 1
 	db 1, 1, BUBBLEBEAM
 	db 1, 2, ICE_BEAM
-	db 2, 1, EXPLOSION
+	;db 2, 1, DOUBLE-EDGE ;can't be trusted with EXPLOSION b/c of how ai works
 	db 2, 3, ICE_BEAM
 	db 2, 4, TRI_ATTACK
 	db 3, 1, PSYCHIC_M
