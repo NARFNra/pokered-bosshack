@@ -4644,6 +4644,7 @@ CriticalHitTest:
 	jr .SkipHighCritical         ; continue as a normal move
 .HighCritical
 	sla b                        ; *2 for high critical hit moves
+	sla b                        ; narf note: fuck it, make critical hit moves have insane 8x crit rate or whatever still
 	jr nc, .noCarry
 	ld b, $ff                    ; cap at 255/256
 .noCarry
