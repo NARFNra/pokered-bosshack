@@ -332,7 +332,7 @@ BlackbeltAI:
 	jp AIUseXAttack
 
 GiovanniAI:
-	cp 25 percent + 1
+	cp 5 percent + 1
 	ret nc
 	jp AIUseGuardSpec
 
@@ -345,7 +345,7 @@ CooltrainerFAI:
 	; The intended 25% chance to consider switching will not apply.
 	; Uncomment the line below to fix this.
 	cp 25 percent + 1
-	; ret nc
+	ret nc
 	ld a, 10
 	call AICheckIfHPBelowFraction
 	jp c, AIUseHyperPotion
@@ -362,12 +362,12 @@ BrockAI:
 	jp AIUseFullHeal
 
 MistyAI:
-	cp 25 percent + 1
+	cp 5 percent + 1
 	ret nc
 	jp AIUseXDefend
 
 LtSurgeAI:
-	cp 25 percent + 1
+	cp 5 percent + 1
 	ret nc
 	jp AIUseXSpeed
 
@@ -380,14 +380,14 @@ ErikaAI:
 	jp AIUseSuperPotion
 
 KogaAI:
-	cp 25 percent + 1
+	cp 5 percent + 1
 	ret nc
 	jp AIUseXAttack
 
 BlaineAI:
 	cp 25 percent + 1
 	ret nc
-	jp AIUseSuperPotion
+	jp AIUseHyperPotion
 
 SabrinaAI:
 	cp 25 percent + 1
@@ -419,10 +419,10 @@ LoreleiAI:
 	ld a, 5
 	call AICheckIfHPBelowFraction
 	ret nc
-	jp AIUseSuperPotion
+	jp AIUseFullRestore
 
 BrunoAI:
-	cp 25 percent + 1
+	cp 5 percent + 1
 	ret nc
 	jp AIUseXDefend
 
@@ -434,7 +434,7 @@ AgathaAI:
 	ld a, 4
 	call AICheckIfHPBelowFraction
 	ret nc
-	jp AIUseSuperPotion
+	jp AIUseFullRestore
 
 LanceAI:
 	cp 50 percent + 1
@@ -442,7 +442,7 @@ LanceAI:
 	ld a, 5
 	call AICheckIfHPBelowFraction
 	ret nc
-	jp AIUseHyperPotion
+	jp AIUseFullRestore
 
 GenericAI:
 	and a ; clear carry
