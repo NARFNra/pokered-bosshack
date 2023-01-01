@@ -161,34 +161,52 @@ SpecialTrainerMoves:
 	db 0
 
 	db RIVAL3, 1
-	db 1, 3, EARTHQUAKE
-	db 2, 4, KINESIS
-	db 3, 4, LEECH_SEED
-	db 4, 1, ICE_BEAM
-	db 5, 1, CONFUSE_RAY
-	db 5, 4, FIRE_SPIN
-	db 6, 3, QUICK_ATTACK
+	db 1, 1, SKY_ATTACK
+	db 2, 1, THUNDER_WAVE
+	db 3, 1, EARTHQUAKE
+	db 3, 2, ROCK_SLIDE
+	db 3, 3, BODY_SLAM
+	db 4, 1, FIRE_BLAST
+	db 4, 2, BODY_SLAM
+	db 4, 3, DRAGON_RAGE
+	db 4, 4, MIMIC
+	db 5, 1, SOLARBEAM
+	db 5, 2, PSYCHIC_M
+	db 5, 3, EGG_BOMB
+	db 5, 4, LEECH_SEED
+	db 6, 1, MEGA_PUNCH
+	db 6, 2, EARTHQUAKE
+	db 6, 3, BLIZZARD
 	db 0
 
 	db RIVAL3, 2
-	db 1, 3, EARTHQUAKE
-	db 2, 4, KINESIS
-	db 3, 4, LEECH_SEED
+	db 1, 1, SKY_ATTACK
+	db 2, 1, THUNDER_WAVE
+	db 3, 1, EARTHQUAKE
+	db 3, 2, ROCK_SLIDE
+	db 3, 3, BODY_SLAM
 	db 4, 1, THUNDERBOLT
-	db 5, 1, ICE_BEAM
-	db 6, 2, REFLECT
-	db 6, 3, QUICK_ATTACK
+	db 4, 2, BLIZZARD
+	db 5, 1, FIRE_BLAST
+	db 5, 2, BODY_SLAM
+	db 5, 3, DRAGON_RAGE
+	db 5, 4, MIMIC
+	db 6, 4, BODY_SLAM
 	db 0
 
 	db RIVAL3, 3
-	db 1, 3, EARTHQUAKE
-	db 2, 4, KINESIS
-	db 3, 4, LEECH_SEED
-	db 4, 1, CONFUSE_RAY
-	db 4, 4, FIRE_SPIN
+	db 1, 1, SKY_ATTACK
+	db 2, 1, THUNDER_WAVE
+	db 3, 1, EARTHQUAKE
+	db 3, 2, ROCK_SLIDE
+	db 3, 3, BODY_SLAM
+	db 4, 1, SOLARBEAM
+	db 4, 2, PSYCHIC_M
+	db 4, 3, EGG_BOMB
+	db 4, 4, LEECH_SEED
 	db 5, 1, THUNDERBOLT
-	db 6, 1, AURORA_BEAM
-	db 6, 3, QUICK_ATTACK
+	db 5, 2, BLIZZARD
+	db 6, 1, EARTHQUAKE
 	db 0
 
 	db -1 ; end
