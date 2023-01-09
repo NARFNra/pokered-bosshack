@@ -78,7 +78,7 @@ SpecialTrainerMoves:
 	db 3, 1, PSYWAVE
 	db 3, 2, TOXIC
 	db 3, 4, PSYCHIC_M
-	db 4, 1, DIG
+	db 4, 1, PSYCHIC_M
 	db 4, 3, TRI_ATTACK
 	db 0
 
