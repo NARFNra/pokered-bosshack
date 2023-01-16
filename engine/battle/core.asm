@@ -1314,16 +1314,35 @@ EnemySendOutFirstMon:
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
 	jr nz, .next
-	ld a, [wSerialExchangeNybbleReceiveData]
+	ld a, [wSerialExchangeNybbleReceiveData] ; if a link battle, retrieve the pokemon to switch to from the exchange
 	sub 4
 	ld [wWhichPokemon], a
 	jr .next3
-.next
-	ld b, $ff
+.next                           ; Narf note: Tried adding code to randomize trainer order and switch order every time
+	ld a, [wEnemyPartyCount]    ; This used to produ
+	ld b, a
+.psyloop
+	call BattleRandom ; stolen from psywave, this result produces a number from 
+	and a
+	jr z, .psyloop
+	cp b
+	jr nc, .psyloop
+	;ld [wBattleMonHP + 1], a ; DEBUG ONLY, STORES THE CHOSEN NUMBER IN YOUR HP LOW BYTE
+	dec a
+	dec a
+	ld b, a
+	jp .next2
+
+.letsresetb
+	ld b, $ff ; original b initialization
+	
 .next2
 	inc b
-	ld a, [wEnemyMonPartyPos]
-	cp b
+	ld a, [wEnemyPartyCount] ; check whether b has incremented
+	cp b                     ; past the end of the party
+	jr c, .letsresetb              ; if so, reset it. not doing so was why my previous tests kept producing a horrible charizard beast when the last mon in the part
+	ld a, [wEnemyMonPartyPos]      ; tried to switch to itself, or when the later mons in the party were dead and someone tried to switch to them
+	cp b                           ; because it'd just shoot right past and then load something past the party data entirely
 	jr z, .next2
 	ld hl, wEnemyMon1
 	ld a, b
