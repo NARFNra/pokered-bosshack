@@ -1319,7 +1319,9 @@ EnemySendOutFirstMon:
 	ld [wWhichPokemon], a
 	jr .next3
 .next                           ; Narf note: Tried adding code to randomize trainer order and switch order every time
-	ld a, [wEnemyPartyCount]    ; This used to produ
+	ld a, [wEnemyPartyCount]
+	cp 1 ;  crashes with 1 mon so just skip
+	jr z, .letsresetb
 	ld b, a
 .psyloop
 	call BattleRandom ; stolen from psywave, this result produces a number from 
@@ -1339,6 +1341,8 @@ EnemySendOutFirstMon:
 .next2
 	inc b
 	ld a, [wEnemyPartyCount] ; check whether b has incremented
+	cp 1
+	jr z, .letsresetb
 	cp b                     ; past the end of the party
 	jr c, .letsresetb              ; if so, reset it. not doing so was why my previous tests kept producing a horrible charizard beast when the last mon in the part
 	ld a, [wEnemyMonPartyPos]      ; tried to switch to itself, or when the later mons in the party were dead and someone tried to switch to them
