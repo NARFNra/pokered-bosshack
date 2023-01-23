@@ -1340,14 +1340,15 @@ EnemySendOutFirstMon:
 	
 .next2
 	inc b
-	ld a, [wEnemyPartyCount] ; check whether b has incremented
-	cp 1
-	jr z, .letsresetb
-	cp b                     ; past the end of the party
+	ld a, [wEnemyPartyCount] ; 
+	cp 1 ; before checking if incremented past end of party, check if party has only one mon
+	jr z, .skippartycheck ; if so, just skip forwards
+	cp b                     ; check whether b has incremented past the end of the party
 	jr c, .letsresetb              ; if so, reset it. not doing so was why my previous tests kept producing a horrible charizard beast when the last mon in the part
 	ld a, [wEnemyMonPartyPos]      ; tried to switch to itself, or when the later mons in the party were dead and someone tried to switch to them
 	cp b                           ; because it'd just shoot right past and then load something past the party data entirely
 	jr z, .next2
+.skippartycheck
 	ld hl, wEnemyMon1
 	ld a, b
 	ld [wWhichPokemon], a
